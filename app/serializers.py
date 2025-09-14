@@ -16,6 +16,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'email',
             'username',
             'password',
+            'confirm_password',
             'role',
             'is_deleted'
         ]

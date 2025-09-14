@@ -1,12 +1,13 @@
 from django.shortcuts import render
-from app import models
-from app import serializers
 from rest_framework import viewsets
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
 
+from app import models
+from app import serializers
+from app.tasks import send_daily_summary
 
 # Create your views here.
 

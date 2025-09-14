@@ -27,6 +27,6 @@ router.register(r'tasks', views.TasksViewSet, basename='tasks')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include(router.urls)),
-    path('api/user/login', TokenObtainPairView.as_view(), name='user_login'),
-    path('api/user/logout', TokenBlacklistView.as_view(), name='user_logout')
+    path('api/user/login/', TokenObtainPairView.as_view(), name='user_login'),
+    path('api/user/logout/', TokenBlacklistView.as_view(), name='user_logout')
 ]

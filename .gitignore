@@ -29,6 +29,9 @@ staticfiles/
 docker-compose.yml
 Dockerfile
 
+#celerybeat
+celerybeat-schedule
+
 #system files
 Thumbs.db
 *.db

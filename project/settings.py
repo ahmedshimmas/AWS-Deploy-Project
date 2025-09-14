@@ -149,13 +149,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')  
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
+from celery.schedules import crontab
+from datetime import timedelta
 
 #Celery-Beat
 CELERY_BEAT_SCHEDULE = {
     "send-daily-summary": {
         "task": "app.tasks.send_daily_summary",
-        "schedule": 60.0 * 60.0 * 24.0,
-        "options": {"expires": 15 * 60},
+        "schedule": timedelta(minutes=5),
     },
 }
 
