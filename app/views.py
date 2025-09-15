@@ -4,7 +4,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
-
+from rest_framework.permissions import IsAuthenticated
 from app import models
 from app import serializers
 from app.tasks import send_daily_summary
@@ -51,6 +51,7 @@ class UserEditView(
 class TasksViewSet(viewsets.ModelViewSet):
     queryset = models.Task.objects.all()
     serializer_class = serializers.TasksSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         if self.request.user.role == 'admin':

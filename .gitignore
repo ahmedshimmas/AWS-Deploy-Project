@@ -20,14 +20,11 @@ env/
 #media
 media/
 staticfiles/
+static/
 
 #IDE
 .vscode/
 .idea/
-
-#docker
-docker-compose.yml
-Dockerfile
 
 #celerybeat
 celerybeat-schedule

@@ -20,6 +20,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'role',
             'is_deleted'
         ]
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
     
     def create(self, validated_data):
         validated_data.pop('confirm_password')
@@ -37,7 +40,6 @@ class UserEditSerializer(serializers.ModelSerializer):
             'last_name',
             'email',
             'username',
-            'password',
             'role',
             'is_deleted'
         ]

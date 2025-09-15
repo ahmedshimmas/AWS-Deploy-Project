@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
-    'rest_framework'
+    'rest_framework',
+    
 ]
 
 MIDDLEWARE = [
@@ -135,11 +136,12 @@ SIMPLE_JWT = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# For local Docker dev:
+STATIC_ROOT = '/app/static'
+MEDIA_ROOT = '/app/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -156,7 +158,7 @@ from datetime import timedelta
 CELERY_BEAT_SCHEDULE = {
     "send-daily-summary": {
         "task": "app.tasks.send_daily_summary",
-        "schedule": timedelta(minutes=5),
+        "schedule": crontab(hour=8, minute=30),  # Executes every day at 7:30 AM
     },
 }
 
