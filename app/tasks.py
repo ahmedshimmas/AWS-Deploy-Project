@@ -9,6 +9,8 @@ from project.settings import EMAIL_HOST_USER
 @shared_task
 def send_daily_summary():
     users = models.User.objects.filter(is_deleted=False)
+    if not users:
+        return('No active users found... skipping summary')
     for user in users:
         print(f"Running summary for {user.email}")
         tasks = models.Task.objects.filter(user=user, is_deleted=False)
