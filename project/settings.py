@@ -55,15 +55,12 @@ AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
 
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
 
 # Optional: make files public
 AWS_DEFAULT_ACL = None  
 AWS_QUERYSTRING_AUTH = True  
 
 
-STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
 
 
@@ -154,16 +151,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),   # access token valid for 1 day
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1)   # refresh token valid for 1 day
 }
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-
-
-# For local Docker dev:
-STATIC_ROOT = '/app/static'
-MEDIA_ROOT = '/app/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
