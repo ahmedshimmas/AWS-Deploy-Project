@@ -33,7 +33,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - web
 
@@ -42,7 +42,7 @@ services:
     container_name: devops-redis
     restart: always
     ports:
-      - "6378:6379"
+      - "6379:6379"
 
   celery:
     image: ahmadshimmas/devops-web:latest

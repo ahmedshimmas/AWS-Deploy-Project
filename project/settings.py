@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+from storages.backends.s3 import S3Storage
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -48,20 +49,44 @@ INSTALLED_APPS += ['storages']
 
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+
 AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+
 AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
-AWS_S3_CUSTOM_DOMAIN = os.getenv("AWS_S3_CUSTOM_DOMAIN")
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",  # Updated class path
+        "OPTIONS": {
+            "bucket_name": AWS_STORAGE_BUCKET_NAME,  
+            "region_name": AWS_S3_REGION_NAME,       
+            # Auth: boto3 auto-picks from env vars (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+            # Optional: Explicit auth if env vars aren't picked up
+            "access_key": AWS_ACCESS_KEY_ID,
+            "secret_key": AWS_SECRET_ACCESS_KEY,
+            "querystring_auth": False,  # Matches your AWS_QUERYSTRING_AUTH
+            "default_acl": None,        # Matches your AWS_DEFAULT_ACL (private by default)
+            # Add more options as needed (e.g., location='', file_overwrite=True)
+        }
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": AWS_STORAGE_BUCKET_NAME,
+            "region_name": AWS_S3_REGION_NAME,
+            "access_key": AWS_ACCESS_KEY_ID,
+            "secret_key": AWS_SECRET_ACCESS_KEY,
+            "querystring_auth": False,
+            "location": "static",  # Store in s3://bucket/static/ to avoid media overlap
+        },
+    }
+}
 
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-# Optional: make files public
-AWS_DEFAULT_ACL = None  
-AWS_QUERYSTRING_AUTH = True  
-
-
-MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/"
+MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
+STATIC_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/static/"
 
 
 MIDDLEWARE = [
